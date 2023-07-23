@@ -2,6 +2,9 @@ package com.my.firstgame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Color;
+
+import java.util.Random;
 
 public class Ball {
 
@@ -10,6 +13,8 @@ public class Ball {
     private int radius;
     private int xSpeed;
     private int ySpeed;
+
+    private Color color = Color.WHITE;
 
     // create a new ball
     public Ball(int x, int y, int radius, int xSpeed, int ySpeed){
@@ -33,6 +38,46 @@ public class Ball {
 
     // draw a circle on screen
     public void draw(ShapeRenderer shapeRenderer){
+        shapeRenderer.setColor(color);
         shapeRenderer.circle(x, y, radius);
+    }
+
+    // checks if the ball is colliding with the platform
+    // if the ball is colliding with the platform, change color to green
+    public void checkCollision(Platform platform){
+        if (collidesWith(platform)){
+            color = Color.GREEN;
+            ySpeed = -ySpeed;
+        } else {
+            color = Color.WHITE;
+        }
+    }
+
+
+    // returns true if the ball is touching the platform
+    private boolean collidesWith(Platform platform){
+        boolean collision = false;
+
+        //get the extreme points for the platform
+        int platformMinWidth = platform.getX();
+        int platformMaxWidth = platform.getX() + platform.getWidth();
+        int platformMinHeight = platform.getY();
+        int platformMaxHeight = platform.getY() + platform.getHeight();
+
+        //get the extreme points for the ball
+        int ballMinWidth = x - radius;
+        int ballMaxWidth = x + radius;
+        int ballMinHeight = y - radius;
+        int ballMaxHeight = y + radius;
+
+        //check if the Ys overlap
+        if(platformMaxHeight >= ballMinHeight && ballMaxHeight >= platformMinHeight){
+            //check if the Xs overlap
+            if(platformMaxWidth >= ballMinWidth && ballMaxWidth >= platformMinWidth){
+                collision = true;
+            }
+        }
+
+        return collision;
     }
 }
