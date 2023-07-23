@@ -10,15 +10,26 @@ import java.util.Random;
 
 public class FirstGame extends ApplicationAdapter{
 
-	Platform movingPlatform =  new Platform(0,10, 100, 7);
-	Ball bouncingBall = new Ball(20, 300, 20, 12, 5);
-	ShapeRenderer shapeRenderer;
+	private Platform movingPlatform =  new Platform(0,10, 100, 7);
+	private Ball bouncingBall = new Ball(20, 300, 20, 12, 5);
+	private ShapeRenderer shapeRenderer;
+
+	private ArrayList<Block> blocks =  new ArrayList<>();
+
+	private int blockHeight = 20;
+
+	private int blockWidth = 63;
 
 	// runs when the program begins
 	@Override
 	public void create(){
 		this.shapeRenderer = new ShapeRenderer();
 
+		for (int y = Gdx.graphics.getHeight()/2 ; y < Gdx.graphics.getHeight(); y += 10 + blockHeight) {
+			for (int x = 0; x < Gdx.graphics.getWidth(); x += 10 + blockWidth){
+				blocks.add(new Block(x, y, blockWidth, blockHeight));
+			}
+		}
 	}
 
 	// runs every frame
@@ -39,6 +50,9 @@ public class FirstGame extends ApplicationAdapter{
 		// draws a circle at x, y position, with radius radius
 		bouncingBall.draw(shapeRenderer);
 		movingPlatform.draw(shapeRenderer);
+		for(Block block : blocks){
+			block.draw(shapeRenderer);
+		}
 
 		shapeRenderer.end();
 	}
