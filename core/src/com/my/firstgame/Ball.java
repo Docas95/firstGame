@@ -27,8 +27,8 @@ public class Ball {
         y+=ySpeed;
 
         // if the circle is out of the screen, invert the direction of it's trajectory
-        if(x < 0 || x > Gdx.graphics.getWidth()) xSpeed = -xSpeed;
-        if(y < 0 || y > Gdx.graphics.getHeight()) ySpeed = -ySpeed;
+        if(x < radius || x > Gdx.graphics.getWidth() - radius) xSpeed = -xSpeed;
+        if(y < radius || y > Gdx.graphics.getHeight() - radius) ySpeed = -ySpeed;
     }
 
     // draw a circle on screen

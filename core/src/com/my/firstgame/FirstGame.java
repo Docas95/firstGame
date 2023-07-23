@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class FirstGame extends ApplicationAdapter{
 
-	ArrayList<Ball> bouncingBalls = new ArrayList<>();
+	Ball bouncingBall = new Ball(30, 30, 30, 12, 7);
 	Random r = new Random();
 	ShapeRenderer shapeRenderer;
 
@@ -18,10 +18,6 @@ public class FirstGame extends ApplicationAdapter{
 	@Override
 	public void create(){
 		this.shapeRenderer = new ShapeRenderer();
-
-		for (int i = 0; i < 10; i++) {
-			bouncingBalls.add(new Ball(r.nextInt(Gdx.graphics.getWidth()), r.nextInt(Gdx.graphics.getHeight()), r.nextInt(70), r.nextInt(20), r.nextInt(14)));
-		}
 	}
 
 	// runs every frame
@@ -31,12 +27,11 @@ public class FirstGame extends ApplicationAdapter{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		// makes the ball run back and forward between the edges of the screen while jumping
-		for(Ball ball : bouncingBalls){
-			ball.update();
-			// draws a circle at x, y position, with radius radius
-			ball.draw(shapeRenderer);
-		}
+
+		//updates position of the ball
+		bouncingBall.update();
+		// draws a circle at x, y position, with radius radius
+		bouncingBall.draw(shapeRenderer);
 
 		shapeRenderer.end();
 	}
