@@ -6,17 +6,29 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.GL20;
 
 public class FirstGame extends ApplicationAdapter{
-	ShapeRenderer shape;
 
+	Ball bouncingBall = new Ball(50, 50, 50, 12, 5);
+	ShapeRenderer shapeRenderer;
+
+	// runs when the program begins
 	@Override
 	public void create(){
-		this.shape = new ShapeRenderer();
+		this.shapeRenderer = new ShapeRenderer();
 	}
 
+	// runs every frame
 	@Override
 	public void render(){
-		shape.begin(ShapeRenderer.ShapeType.Filled);
-		shape.circle(50, 50, 50);
-		shape.end();
+		// clear screen at the beginning of frame
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+		// makes the ball run back and forward between the edges of the screen while jumping
+		bouncingBall.update();
+
+		// draws a circle at x, y position, with radius radius
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		bouncingBall.draw(shapeRenderer);
+		shapeRenderer.end();
 	}
 }
