@@ -32,8 +32,11 @@ public class Ball {
         y+=ySpeed;
 
         // if the circle is out of the screen, invert the direction of it's trajectory
-        if(x < radius || x > Gdx.graphics.getWidth() - radius) xSpeed = -xSpeed;
-        if(y < radius || y > Gdx.graphics.getHeight() - radius) ySpeed = -ySpeed;
+        if(x < radius && xSpeed < 0) xSpeed = -xSpeed;
+        if (x > Gdx.graphics.getWidth() - radius && xSpeed > 0) xSpeed = -xSpeed;
+
+        if(y < radius && ySpeed < 0) ySpeed = -ySpeed;
+        if(y > Gdx.graphics.getHeight() - radius && ySpeed > 0) ySpeed = -ySpeed;
     }
 
     // draw a circle on screen
@@ -45,15 +48,21 @@ public class Ball {
     // checks if the ball is colliding with the platform
     // if the ball is colliding with the platform, change color to green
     public void checkCollision(Platform platform){
-        if (collidesWith(platform)) {
+        if (collidesWith(platform) == 1) {
             ySpeed = -ySpeed;
+            if(xSpeed > 0) xSpeed = -xSpeed;
+        } else if (collidesWith(platform) == 2){
+            ySpeed = -ySpeed;
+            if(xSpeed < 0) xSpeed = -xSpeed;
         }
     }
 
 
     // returns true if the ball is touching the platform
-    private boolean collidesWith(Platform platform){
-        boolean collision = false;
+    // if the ball is touching the left side of the platform, returns 1
+    // if the ball is touching the right side of the platform, returns 2
+    private int collidesWith(Platform platform){
+        int collision = 0;
 
         //get the extreme points for the platform
         int platformMinWidth = platform.getX();
@@ -71,13 +80,20 @@ public class Ball {
         if(platformMaxHeight >= ballMinHeight && ballMaxHeight >= platformMinHeight){
             //check if the Xs overlap
             if(platformMaxWidth >= ballMinWidth && ballMaxWidth >= platformMinWidth){
-                collision = true;
+                collision = 1;
             }
+        }
+
+        // check if the ball is on the right or left side of platform
+        int platformMidWidth = (platformMaxWidth + platformMinWidth) / 2;
+        if(collision == 1){
+            if(x >= platformMidWidth) collision = 2;
         }
 
         return collision;
     }
 
+    // checks if the ball is colliding with a block
     public void checkCollision(Block block){
         if (collidesWith(block) == 1){
             ySpeed = -ySpeed;

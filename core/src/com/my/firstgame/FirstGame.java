@@ -25,7 +25,7 @@ public class FirstGame extends ApplicationAdapter{
 		this.shapeRenderer = new ShapeRenderer();
 
 		//creates a group og blocks starting at the middle Y of the screen
-		for (int y = Gdx.graphics.getHeight()/2 ; y < Gdx.graphics.getHeight(); y += 10 + blockHeight) {
+		for (int y = Gdx.graphics.getHeight()/2 + 2*blockHeight; y < Gdx.graphics.getHeight(); y += 10 + blockHeight) {
 			for (int x = 0; x < Gdx.graphics.getWidth(); x += 10 + blockWidth){
 				blocks.add(new Block(x, y, blockWidth, blockHeight));
 			}

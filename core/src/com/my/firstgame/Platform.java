@@ -41,7 +41,7 @@ public class Platform {
 
         // the platform can't move past the edge of the screen
         if(x > Gdx.graphics.getWidth() - width) x = Gdx.graphics.getWidth() - width - 5;
-        if(x < width) x = 5;
+        if(x < 5) x = 5;
     }
 
     // draws the platform on the screen
