@@ -45,11 +45,8 @@ public class Ball {
     // checks if the ball is colliding with the platform
     // if the ball is colliding with the platform, change color to green
     public void checkCollision(Platform platform){
-        if (collidesWith(platform)){
-            color = Color.GREEN;
+        if (collidesWith(platform)) {
             ySpeed = -ySpeed;
-        } else {
-            color = Color.WHITE;
         }
     }
 
@@ -74,6 +71,39 @@ public class Ball {
         if(platformMaxHeight >= ballMinHeight && ballMaxHeight >= platformMinHeight){
             //check if the Xs overlap
             if(platformMaxWidth >= ballMinWidth && ballMaxWidth >= platformMinWidth){
+                collision = true;
+            }
+        }
+
+        return collision;
+    }
+
+    public void checkCollision(Block block){
+        if (collidesWith(block)){
+            ySpeed = -ySpeed;
+            block.setDestroyed(true);
+        }
+    }
+
+    private boolean collidesWith(Block block){
+        boolean collision = false;
+
+        //get the extreme points for the block
+        int blockMinWidth = block.getX();
+        int blockMaxWidth = block.getX() + block.getWidth();
+        int blockMinHeight = block.getY();
+        int blockMaxHeight = block.getY() + block.getHeight();
+
+        //get the extreme points for the ball
+        int ballMinWidth = x - radius;
+        int ballMaxWidth = x + radius;
+        int ballMinHeight = y - radius;
+        int ballMaxHeight = y + radius;
+
+        //check if the Ys overlap
+        if(blockMaxHeight >= ballMinHeight && ballMaxHeight >= blockMinHeight){
+            //check if the Xs overlap
+            if(blockMaxWidth >= ballMinWidth && ballMaxWidth >= blockMinWidth){
                 collision = true;
             }
         }

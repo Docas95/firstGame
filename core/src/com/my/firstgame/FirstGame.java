@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.GL20;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class FirstGame extends ApplicationAdapter{
 
 	private Platform movingPlatform =  new Platform(0,10, 100, 7);
-	private Ball bouncingBall = new Ball(20, 300, 20, 12, 5);
+	private Ball bouncingBall = new Ball(10, 10, 10, 12, 5);
 	private ShapeRenderer shapeRenderer;
 
 	private ArrayList<Block> blocks =  new ArrayList<>();
@@ -25,6 +24,7 @@ public class FirstGame extends ApplicationAdapter{
 	public void create(){
 		this.shapeRenderer = new ShapeRenderer();
 
+		//creates a group og blocks starting at the middle Y of the screen
 		for (int y = Gdx.graphics.getHeight()/2 ; y < Gdx.graphics.getHeight(); y += 10 + blockHeight) {
 			for (int x = 0; x < Gdx.graphics.getWidth(); x += 10 + blockWidth){
 				blocks.add(new Block(x, y, blockWidth, blockHeight));
@@ -38,6 +38,7 @@ public class FirstGame extends ApplicationAdapter{
 		// clear screen at the beginning of frame
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		//begin shape renderer
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		// updates position of the ball and platform
@@ -47,13 +48,28 @@ public class FirstGame extends ApplicationAdapter{
 		// checks if ball and platform are touching
 		bouncingBall.checkCollision(movingPlatform);
 
-		// draws a circle at x, y position, with radius radius
+		// draws a circle at x, y position
 		bouncingBall.draw(shapeRenderer);
+
+		//draws moving platform
 		movingPlatform.draw(shapeRenderer);
+
+		//draws all blocks
 		for(Block block : blocks){
 			block.draw(shapeRenderer);
+			bouncingBall.checkCollision(block);
 		}
 
+		//remove destroyed blocks
+		for (int i = 0; i < blocks.size(); i++) {
+			Block blockTmp = blocks.get(i);
+			if (blockTmp.getDestroyed()){
+				blocks.remove(blockTmp);
+				i--;
+			}
+		}
+
+		//finish shape renderer
 		shapeRenderer.end();
 	}
 }
