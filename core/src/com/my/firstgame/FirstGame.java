@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class FirstGame extends ApplicationAdapter{
 
 	private Platform movingPlatform =  new Platform(0,10, 100, 7);
-	private Ball bouncingBall = new Ball(10, 10, 10, 12, 5);
+	private Ball bouncingBall = new Ball(10, 10, 10, 7, 5);
 	private ShapeRenderer shapeRenderer;
 
 	private ArrayList<Block> blocks =  new ArrayList<>();

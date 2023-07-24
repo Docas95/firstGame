@@ -79,14 +79,21 @@ public class Ball {
     }
 
     public void checkCollision(Block block){
-        if (collidesWith(block)){
+        if (collidesWith(block) == 1){
             ySpeed = -ySpeed;
+            block.setDestroyed(true);
+        } else if (collidesWith(block) == 2){
+            xSpeed = -xSpeed;
             block.setDestroyed(true);
         }
     }
 
-    private boolean collidesWith(Block block){
-        boolean collision = false;
+    // checks if the ball is colliding with a block
+    // returns 0 if no
+    // returns 1 if touching the top or bottom of a block
+    // returns 2 if touching the sides of a block
+    private int collidesWith(Block block){
+        int collision = 0;
 
         //get the extreme points for the block
         int blockMinWidth = block.getX();
@@ -104,8 +111,14 @@ public class Ball {
         if(blockMaxHeight >= ballMinHeight && ballMaxHeight >= blockMinHeight){
             //check if the Xs overlap
             if(blockMaxWidth >= ballMinWidth && ballMaxWidth >= blockMinWidth){
-                collision = true;
+                collision = 1;
             }
+        }
+
+
+        // check if the ball is touching the side of the block
+        if(collision == 1) {
+            if (x <= blockMinWidth || x >= blockMaxWidth) collision = 2;
         }
 
         return collision;
