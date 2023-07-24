@@ -2,6 +2,7 @@ package com.my.firstgame;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -19,6 +20,10 @@ public class FirstGame extends ApplicationAdapter{
 
 	private int blockWidth = 63;
 
+	private Sound soundPlayer;
+
+	private int points = 0;
+
 	// runs when the program begins
 	@Override
 	public void create(){
@@ -30,6 +35,8 @@ public class FirstGame extends ApplicationAdapter{
 				blocks.add(new Block(x, y, blockWidth, blockHeight));
 			}
 		}
+
+		bouncingBall.setJumpSound(Gdx.audio.newSound(Gdx.files.internal("jump.mp3")));
 	}
 
 	// runs every frame
@@ -66,6 +73,8 @@ public class FirstGame extends ApplicationAdapter{
 			if (blockTmp.getDestroyed()){
 				blocks.remove(blockTmp);
 				i--;
+
+				points++;
 			}
 		}
 

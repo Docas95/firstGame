@@ -10,7 +10,7 @@ public class Platform {
     private int x;
     private int y;
 
-    private Color color = Color.WHITE;
+    private Color color = Color.GREEN;
 
     public Platform(int x, int y, int width, int height){
         this.x = x;

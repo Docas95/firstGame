@@ -3,8 +3,7 @@ package com.my.firstgame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
-
-import java.util.Random;
+import com.badlogic.gdx.audio.Sound;
 
 public class Ball {
 
@@ -14,7 +13,9 @@ public class Ball {
     private int xSpeed;
     private int ySpeed;
 
-    private Color color = Color.WHITE;
+    private Color color = Color.GREEN;
+
+    private Sound jumpSound;
 
     // create a new ball
     public Ball(int x, int y, int radius, int xSpeed, int ySpeed){
@@ -23,6 +24,10 @@ public class Ball {
         this.radius = radius;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
+    }
+
+    public void setJumpSound(Sound jumpSound){
+        this.jumpSound = jumpSound;
     }
 
     //updates every frame
@@ -49,9 +54,11 @@ public class Ball {
     // if the ball is colliding with the platform, change color to green
     public void checkCollision(Platform platform){
         if (collidesWith(platform) == 1) {
+            jumpSound.play(0.4f);
             ySpeed = -ySpeed;
             if(xSpeed > 0) xSpeed = -xSpeed;
         } else if (collidesWith(platform) == 2){
+            jumpSound.play(0.4f);
             ySpeed = -ySpeed;
             if(xSpeed < 0) xSpeed = -xSpeed;
         }
